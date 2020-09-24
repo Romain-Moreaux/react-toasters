@@ -1,38 +1,316 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap');
+
+/***
+ RESET */
+
+/* prettier-ignore */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+
+/* prettier-ignore */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+
+body {
+  line-height: 1;
+}
+ol,
+ul {
+  list-style: none;
+}
+blockquote,
+q {
+  quotes: none;
+}
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: '';
+  content: none;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+*,
+::after,
+::before {
+  box-sizing: border-box;
+}
+
+/***
+ VARIABLES */
+:root {
+  --error: #e63757;
+  --danger: #fd7e14;
+  --warning: #f6c343;
+  --success: #00d97e;
+  --gray: #95aac9;
+  --gray-light: #e3ebf6;
+  --gray-dark: #6e84a3;
+  --blue: #2c7be5;
+  --blueDark: #1862c6;
+  --blueRaven: #12263f;
+  --white: #ffffff;
+  --whiteDark: #f9fbfd;
+  --bp-xs: 0;
+  --bp-sm: 576px;
+  --bp-md: 768px;
+  --bp-lg: 992px;
+  --bp-xl: 1200px;
+  --text-xs: 1.1rem;
+  --text-sm: 1.3rem;
+  --text-md: 1.6rem;
+  --text-lg: 1.9rem;
+  --text-xl: 2.3rem;
+  --text-xxl: 3rem;
+  --text-xxxl: 4rem;
+  --font-primary: 'Nunito Sans', sans-serif;
+  --weight300: 300;
+  --weight400: 400;
+  --weight600: 600;
+  --weight800: 700;
+  --weight900: 900;
+  --spaceMobile: 1.2rem;
+  --spaceTablet: 2.4rem;
+  --spaceDesktop: 3.6rem;
+  --gutters: 1.2rem;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-size: 16px;
+  font-size: var(--text-md);
+  font-family: var(--font-primary);
+  line-height: 1.5;
+  font-weight: var(--weight400);
+  color: var(--gray);
+  background-color: var(--whiteDark);
+}
+svg,
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: var(--weight800);
+  line-height: 1.1;
+  letter-spacing: -0.03rem;
+  color: var(--blueRaven);
+}
+h1 {
+  font-size: var(--text-xxl);
+}
+h2 {
+  font-size: var(--text-xl);
+}
+h3 {
+  font-size: var(--text-lg);
+}
+
+a {
+  text-decoration: none;
+  color: var(--blue);
+  font-weight: var(--weight600);
+}
+
+p {
+  color: var(--gray);
+  margin-bottom: 1.2rem;
+}
+
 .App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+}
+
+.header {
+  text-align: center;
+  position: absolute;
+  left: 0;
+  right: 0;
+  min-height: 50px;
+  display: flex;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+}
+
+.header-title {
+  display: flex;
+}
+.header-title > img {
+  width: 26px;
+}
+.header-title > a {
+  font-size: 2.4rem;
+  font-weight: 300;
+  margin-left: 1rem;
+}
+
+.section-int {
+  display: flex;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.editor-pre {
+  border-radius: 4px;
+  font-size: 12px;
+  font-family: 'IBM Plex Mono', Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  overflow-x: auto;
+  margin: 0px;
+  max-height: 100%;
+  max-width: 100%;
+  padding: 12px;
+  background: white;
+  box-shadow: rgba(9, 30, 66, 0.04) 0px 0px 0px 1px;
+  box-sizing: border-box;
+  color: rgb(23, 43, 77);
+  hyphens: none;
+  line-height: 1.5;
+  tab-size: 4;
+  text-align: left;
+  white-space: pre;
+  word-break: normal;
+  word-spacing: normal;
+  overflow-wrap: normal;
+}
+
+.editor-code {
+  font-size: 12px;
+  font-family: 'IBM Plex Mono', Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  overflow-x: auto;
+  margin: 0px;
+  max-height: 100%;
+  max-width: 100%;
+  background: none;
+  color: rgb(23, 43, 77);
+  hyphens: none;
+  line-height: 1.5;
+  tab-size: 4;
+  text-align: left;
+  white-space: pre;
+  word-break: normal;
+  word-spacing: normal;
+  overflow-wrap: normal;
+}
+
+.editor-text-blue {
+  color: rgb(38, 132, 255);
+}
+.editor-text-grey {
+  color: rgb(122, 134, 154);
+}
+.editor-text-green {
+  color: rgb(0, 163, 191);
+}
+.editor-text-blue-alt {
+  color: rgb(76, 154, 255);
+}
+.editor-text-blue-purple {
+  color: rgb(82, 67, 170);
+}
+.editor-text-blue-purple-light {
+  color: rgb(135, 119, 217);
+}
+.editor-text-blue-orange {
+  color: rgb(255, 139, 0);
+}
+
+.btn {
+  outline: 0px;
+  border: 0px;
+  border-radius: 4px;
   color: white;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: 2.2em;
+  padding-left: 1em;
+  padding-right: 1em;
+  transition: box-shadow 150ms cubic-bezier(0.2, 0, 0, 1) 0s,
+    transform 150ms cubic-bezier(0.2, 0, 0, 1) 0s;
 }
 
-.App-link {
-  color: #61dafb;
+.btn:hover {
+  transform: scale(1.03);
+  box-shadow: rgba(9, 30, 66, 0.13) 0px 2px 1px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.btn-default {
+  background: linear-gradient(
+      to right bottom,
+      rgb(254, 254, 253),
+      rgb(249, 251, 253)
+    )
+    left top no-repeat;
+  color: rgb(18, 38, 63);
+  border: 1px solid rgb(18, 38, 63);
+}
+.btn-success {
+  background: linear-gradient(
+      to right bottom,
+      rgb(0, 217, 126),
+      rgb(0, 204, 119)
+    )
+    left top no-repeat;
+}
+
+.btn-error {
+  background: linear-gradient(
+      to right bottom,
+      rgb(230, 55, 87),
+      rgb(204, 25, 58)
+    )
+    left top no-repeat;
+}
+
+.btn-warning {
+  background: linear-gradient(
+      to right bottom,
+      rgb(253, 126, 20),
+      rgb(227, 104, 2)
+    )
+    left top no-repeat;
+}
+
+.btn-info {
+  background: linear-gradient(
+      to right bottom,
+      rgb(44, 123, 229),
+      rgb(25, 103, 204)
+    )
+    left top no-repeat;
 }

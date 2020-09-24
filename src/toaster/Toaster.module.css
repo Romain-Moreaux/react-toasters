@@ -1,47 +1,43 @@
-@value rgbWhiteDark : 249, 251, 253;
-@value rgbBlueDark : 18, 38, 63;
+@value rgbBlueDark: 18, 38, 63;
 @value rgbGreen: 0, 217, 126;
+@value rgbGreenAlt: 0, 179, 104;
 @value rgbRed: 230, 55, 87;
+@value rgbRedAlt: 204, 25, 58;
 @value rgbOrange: 253, 126, 20;
+@value rgbOrangeAlt: 227, 104, 2;
 @value rgbBlue: 44, 123, 229;
-@value rgbWhite: 249, 251, 253;
+@value rgbBlueAlt: 25, 103, 204;
+@value rgbWhite: 254, 254, 253;
+@value rgbWhiteAlt: 249, 251, 253;
 @value containerGutters: 1.2rem;
 
 .default {
-  background-color: rgba(rgbWhite, 0.9);
-}
-.default:hover {
-  background-color: rgba(rgbWhite, 1);
+  background: linear-gradient(to right bottom, rgb(rgbWhite), rgb(rgbWhiteAlt))
+    left top no-repeat;
 }
 
 .success {
-  background-color: rgba(rgbGreen, 0.9);
-}
-
-.success:hover {
-  background-color: rgba(rgbGreen, 1);
+  background: linear-gradient(to right bottom, rgb(rgbGreen), rgb(rgbGreenAlt))
+    left top no-repeat;
 }
 
 .error {
-  background-color: rgba(rgbRed, 0.9);
-}
-
-.error:hover {
-  background-color: rgba(rgbRed, 1);
+  background: linear-gradient(to right bottom, rgb(rgbRed), rgb(rgbRedAlt)) left
+    top no-repeat;
 }
 
 .info {
-  background-color: rgba(rgbBlue, 0.9);
-}
-.info:hover {
-  background-color: rgba(rgbBlue, 1);
+  background: linear-gradient(to right bottom, rgb(rgbBlue), rgb(rgbBlueAlt))
+    left top no-repeat;
 }
 
 .warning {
-  background-color: rgba(rgbOrange, 0.9);
-}
-.warning:hover {
-  background-color: rgba(rgbOrange, 1);
+  background: linear-gradient(
+      to right bottom,
+      rgb(rgbOrange),
+      rgb(rgbOrangeAlt)
+    )
+    left top no-repeat;
 }
 
 /* Component styles */
@@ -80,7 +76,7 @@
 .toast {
   display: flex;
   align-items: center;
-  color: whiteDark;
+  color: rgb(rgbWhite);
   padding: 1.4rem;
   transition: 0.3s ease;
   position: relative;
@@ -94,7 +90,7 @@
 }
 
 .default {
-  color: blueDark;
+  color: rgb(rgbBlueDark);
 }
 
 .information {

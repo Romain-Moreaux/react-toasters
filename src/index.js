@@ -5,7 +5,7 @@ import Toaster from './toaster'
 
 ReactDOM.render(
   <React.StrictMode>
-    <Toaster position={'topRight'} autoClose={5000} closeButton={true}>
+    <Toaster position={'topRight'} autoClose={null} closeButton={true}>
       <App />
     </Toaster>
   </React.StrictMode>,

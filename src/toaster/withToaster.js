@@ -14,7 +14,9 @@ function generateToastId() {
   return (Math.random().toString(36) + Date.now().toString(36)).substr(2, 10)
 }
 
-function withToastProvider(Component, initialConfig) {
+// Should pass context as prop
+
+function withToaster(Component, initialConfig) {
   function ToastProvider(props) {
     // console.log('render ToastProvider')
     const [toasts, setToasts] = useState([])
@@ -126,4 +128,4 @@ function withToastProvider(Component, initialConfig) {
   return ToastProvider
 }
 
-export default withToastProvider
+export default withToaster

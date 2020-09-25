@@ -1,136 +1,142 @@
 import React from 'react'
-import { useToast } from './toaster'
-import './App.css'
-import logo from './toaster-blue.png'
+import { ThemeProvider } from 'react-jss'
+import Exemples from './Exemples'
+import ToasterProvider from './toaster'
+import WebFont from 'webfontloader'
+
+WebFont.load({
+  google: {
+    families: ['Nunito Sans:300,400,600,700,800,900', 'sans-serif'],
+  },
+})
+
+const theme = {
+  colors: {
+    raven: 'rgb(18, 38, 63)',
+    green: 'rgb(0, 217, 126)',
+    greenAlt: 'rgb(0, 179, 104)',
+    red: 'rgb(230, 55, 87)',
+    redAlt: 'rgb(204, 25, 58)',
+    orange: 'rgb(253, 126, 20)',
+    orangeAlt: 'rgb(227, 104, 2)',
+    blue: 'rgb(44, 123, 229)',
+    blueAlt: 'rgb(25, 103, 204)',
+    white: 'rgb(254, 254, 253)',
+    whiteAlt: 'rgb(249, 251, 253)',
+  },
+  breakpoints: {
+    xs: 0,
+    sm: 576,
+    md: 768,
+    lg: 992,
+    xl: 1200,
+  },
+  texts: {
+    xs: '1.1rem',
+    sm: '1.3rem',
+    md: '1.6rem',
+    lg: '1.9rem',
+    xl: '2.3rem',
+    xxl: '3rem',
+    xxxl: '4rem',
+  },
+  fonts: {
+    primary: "'Nunito Sans', sans-serif",
+  },
+  wrappers: {
+    w975: {
+      maxWidth: 975,
+      marginLeft: 'auto',
+      marginRight: 'auto',
+    },
+    w1280: {
+      maxWidth: 1280,
+      marginLeft: 'auto',
+      marginRight: 'auto',
+    },
+    w11366: {
+      maxWidth: 1366,
+      marginLeft: 'auto',
+      marginRight: 'auto',
+    },
+    w1480: {
+      maxWidth: 1440,
+      marginLeft: 'auto',
+      marginRight: 'auto',
+    },
+  },
+  sections: {
+    int: {
+      display: 'flex',
+      alignItems: 'center',
+      minHeight: '100vh',
+    },
+  },
+  boxes: {
+    left: { flex: 1 },
+    right: { flex: 1 },
+  },
+  buttons: {
+    prototype: {
+      outline: 0,
+      border: 0,
+      borderRadius: 4,
+      color: 'white',
+      cursor: 'pointer',
+      fontFamily: 'inherit',
+      fontSize: 'inherit',
+      lineHeight: '3.5rem',
+      paddingLeft: '1.3rem',
+      paddingRight: '1.3rem',
+      transition:
+        'box-shadow 150ms cubic-bezier(0.2, 0, 0, 1) 0s, transform 150ms cubic-bezier(0.2, 0, 0, 1) 0s',
+      '&:hover': {
+        transform: 'scale(1.03)',
+        boxShadow: 'rgba(9, 30, 66, 0.13) 0px 2px 1px',
+      },
+    },
+    default: {
+      background:
+        'linear-gradient(to right bottom, rgb(254, 254, 253), rgb(249, 251, 253)) left top no-repeat',
+      color: 'rgb(18, 38, 63)',
+      border: '1px solid rgb(18, 38, 63)',
+    },
+    success: {
+      background:
+        'linear-gradient(to right bottom, rgb(0, 217, 126), rgb(0, 204, 119)) left top no-repeat',
+    },
+    info: {
+      background:
+        'linear-gradient(to right bottom, rgb(44, 123, 229), rgb(25, 103, 204)) left top no-repeat',
+    },
+    error: {
+      background:
+        'linear-gradient(to right bottom, rgb(230, 55, 87), rgb(204, 25, 58)) left top no-repeat',
+    },
+    warning: {
+      background:
+        'linear-gradient(to right bottom, rgb(253, 126, 20), rgb(227, 104, 2)) left top no-repeat',
+    },
+  },
+  spaces: {
+    xxl: '4.8rem',
+    xl: '3.6rem',
+    lg: '2.4rem',
+    md: '1.2rem',
+    sm: '.8rem',
+    xs: '.4rem',
+  },
+}
 
 function App() {
-  const toast = useToast()
   return (
-    <div className="App">
-      <header className="header">
-        <h1 className="header-title">
-          <img src={logo} alt="React Toaster" />
-          <a href="https://github.com/Romain-Moreaux/react-toasters">
-            React Toasters
-          </a>
-        </h1>
-      </header>
-      <section className="section">
-        <div className="section-int">
-          <div className="box-left">
-            <h2>
-              Guide the user through your application with a notification system
-            </h2>
-            <button
-              className="btn btn-success"
-              onClick={() =>
-                toast.success('success', 'Your modification has been saved')
-              }
-            >
-              Toast success
-            </button>
-            <button
-              className="btn btn-error"
-              onClick={() => toast.error('error', 'An error has occurred!')}
-            >
-              Toast error
-            </button>
-            <button
-              className="btn btn-warning"
-              onClick={() =>
-                toast.warning('warning', 'You should complete all fields')
-              }
-            >
-              Toast warning
-            </button>
-            <button
-              className="btn btn-info"
-              onClick={() =>
-                toast.info('info', 'You have received a new message')
-              }
-            >
-              Toast info
-            </button>
-            <button
-              className="btn btn-default"
-              onClick={() =>
-                toast('default', "Don't forget to complete your registration")
-              }
-            >
-              Toast info
-            </button>
-          </div>
-          <div className="box-right">
-            <pre className="editor-pre">
-              <code className="editor-code">
-                <span className="editor-text-blue">import</span>
-                <span className="editor-text-grey">&lcub;</span> useToasts
-                <span className="editor-text-grey">&rcub;</span>
-                <span className="editor-text-blue">from</span>
-                <span className="editor-text-green">
-                  'react-toast-notifications'
-                </span>
-                <span className="editor-text-blue">export</span>
-                <span className="editor-text-blue">const</span>
-                <span className="editor-text-green">ToastDemo</span>
-                <span className="editor-code-blue-alt">=</span>
-                <span className="editor-text-grey">(</span>
-                <span className="editor-text-grey">&lcub;</span> content
-                <span className="editor-text-grey">&rcub;</span>
-                <span className="editor-text-grey">)</span>
-                <span className="editor-code-blue-alt">=&gt;</span>
-                <span className="editor-text-grey">&lcub;</span>
-                <span className="editor-text-blue">const</span>
-                <span className="editor-text-grey">&lcub;</span> addToast
-                <span className="editor-text-grey">&rcub;</span>
-                <span className="editor-code-blue-alt">=</span>
-                <span className="editor-text-green">useToasts</span>
-                <span className="editor-text-grey">(</span>
-                <span className="editor-text-grey">)</span>
-                <span className="editor-text-blue">return</span>
-                <span className="editor-text-grey">(</span>
-                <span className="editor-text-purple">
-                  <span className="editor-text-purple">
-                    <span className="editor-text-grey">&lt;</span>Button
-                  </span>
-                  <span className="editor-text-purple-light">onClick</span>
-                  <span>
-                    <span className="editor-text-grey">=</span>
-                    <span className="editor-text-grey">&lcub;</span>
-                    <span className="editor-text-grey">(</span>
-                    <span className="editor-text-grey">)</span>
-                    <span className="editor-code-blue-alt">=&gt;</span>
-                    <span className="editor-text-green">addToast</span>
-                    <span className="editor-text-grey">(</span>content
-                    <span className="editor-text-grey">,</span>
-                    <span className="editor-text-grey">&lcub;</span>
-                    appearance<span className="editor-text-grey">:</span>
-                    <span className="editor-text-green">'success'</span>
-                    <span className="editor-text-grey">,</span>
-                    autoDismiss<span className="editor-text-grey">:</span>
-                    <span className="editor-text-orange">false</span>
-                    <span className="editor-text-grey">,</span>
-                    <span className="editor-text-grey">&rcub;</span>
-                    <span className="editor-text-grey">)</span>
-                    <span className="editor-text-grey">&rcub;</span>
-                  </span>
-                  <span className="editor-text-grey">&gt;</span>
-                </span>
-                <span>Add Toast</span>
-                <span className="editor-text-purple">
-                  <span className="editor-text-purple">
-                    <span className="editor-text-grey">&lt;/</span>Button
-                  </span>
-                  <span className="editor-text-grey">&gt;</span>
-                </span>
-                <span className="editor-text-grey">)</span>
-                <span className="editor-text-grey">&rcub;</span>
-              </code>
-            </pre>
-          </div>
+    <ThemeProvider theme={theme}>
+      <ToasterProvider position="topRight" autoClose={5000} closeButton={true}>
+        <div className="App">
+          <Exemples />
         </div>
-      </section>
-    </div>
+      </ToasterProvider>
+    </ThemeProvider>
   )
 }
 

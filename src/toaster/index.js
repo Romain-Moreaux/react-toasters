@@ -1,5 +1,5 @@
-import Toaster from './Toaster'
+import ToasterProvider from './ToasterProvider'
 import useToast from './useToast'
 
-export default Toaster
+export default ToasterProvider
 export { useToast }

@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import logo from './toaster-blue.png'
 import { useToast } from './toaster'
 import { createUseStyles, useTheme } from 'react-jss'
 import PropTypes from 'prop-types'
+import CodeBlock from './CodeBlock'
 
 const useStyles = createUseStyles((theme) => ({
   header: {
@@ -17,6 +18,7 @@ const useStyles = createUseStyles((theme) => ({
   },
   headerTitle: {
     display: 'flex',
+    marginBottom: '3rem',
     '& > img': {
       width: 26,
     },
@@ -35,6 +37,10 @@ const useStyles = createUseStyles((theme) => ({
   button: {
     ...theme.buttons.prototype,
   },
+  choices: {
+    marginBottom: '2rem',
+  },
+  radio: {},
 }))
 
 const Button = ({ children, cb, model }) => {
@@ -61,10 +67,40 @@ Button.propTypes = {
   children: PropTypes.node,
 }
 
+const exampleCode = ({
+  appearance,
+}) => `import { useToasts } from 'react-toaster'
+export const ToastDemo = ({ content }) => {
+  const toast = useToasts()
+  return (
+    <Button onClick={() => toast.${appearance}('success', content)}>
+      Add Toast
+    </Button>
+  )
+}
+`
+
+const appearances = [
+  { value: 'success', label: 'Success' },
+  { value: 'error', label: 'Error' },
+  { value: 'warning', label: 'Warning' },
+  { value: 'info', label: 'Info' },
+  { value: 'default', label: 'Default' },
+]
+
 export default function Exemples() {
   const toast = useToast()
   const classes = useStyles()
   const theme = useTheme()
+  const [appearance, setAppearance] = useState()
+
+  const handleAppearanceChange = (e) => {
+    console.log('handleAppearanceChange', e)
+    setAppearance(e.target.value)
+  }
+
+  console.log('appearance', appearance)
+
   return (
     <>
       <header className={classes.header}>
@@ -81,6 +117,27 @@ export default function Exemples() {
             <h2>
               Guide the user through your application with a notification system
             </h2>
+
+            <form value={appearance}>
+              {appearances.map((a) => (
+                <label
+                  key={a.value}
+                  style={{
+                    alignItems: 'center',
+                    display: 'inline-flex',
+                    marginRight: '1em',
+                  }}
+                >
+                  <input
+                    type="radio"
+                    value={a.value}
+                    checked={appearance === a.value}
+                    onChange={handleAppearanceChange}
+                  />
+                  <div style={{ marginLeft: '0.25rem' }}>{a.label}</div>
+                </label>
+              ))}
+            </form>
             <Button
               model="success"
               cb={() =>
@@ -117,7 +174,9 @@ export default function Exemples() {
               Toast info
             </Button>
           </div>
-          <div style={{ ...theme.boxes.right }}>La boite de code</div>
+          <div style={{ ...theme.boxes.right }}>
+            <CodeBlock>{exampleCode({ appearance })}</CodeBlock>
+          </div>
         </div>
       </section>
     </>

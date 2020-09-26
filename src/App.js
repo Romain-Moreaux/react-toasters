@@ -131,7 +131,7 @@ const theme = {
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      <ToasterProvider position="topRight" autoClose={5000} closeButton={true}>
+      <ToasterProvider position="topRight" closeButton={true} autoClose={5000}>
         <div className="App">
           <Exemples />
         </div>

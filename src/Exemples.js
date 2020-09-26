@@ -73,7 +73,7 @@ const exampleCode = ({
 export const ToastDemo = ({ content }) => {
   const toast = useToasts()
   return (
-    <Button onClick={() => toast.${appearance}('success', content)}>
+    <Button onClick={() => toast.${appearance}('${appearance}', content)}>
       Add Toast
     </Button>
   )
@@ -92,14 +92,12 @@ export default function Exemples() {
   const toast = useToast()
   const classes = useStyles()
   const theme = useTheme()
-  const [appearance, setAppearance] = useState()
+  const [appearance, setAppearance] = useState('info')
 
   const handleAppearanceChange = (e) => {
     console.log('handleAppearanceChange', e)
     setAppearance(e.target.value)
   }
-
-  console.log('appearance', appearance)
 
   return (
     <>
@@ -139,39 +137,15 @@ export default function Exemples() {
               ))}
             </form>
             <Button
-              model="success"
+              model={appearance}
               cb={() =>
-                toast.success('success', 'Your informations has been saved')
+                toast(appearance, 'Your informations has been saved', {
+                  type: appearance,
+                  position: 'bottomRight',
+                })
               }
             >
-              Toast Success
-            </Button>
-            <Button
-              model="error"
-              cb={() => toast.error('error', 'An error has occurred!')}
-            >
-              Toast error
-            </Button>
-            <Button
-              model="warning"
-              cb={() =>
-                toast.warning('warning', 'You should complete all fields')
-              }
-            >
-              Toast warning
-            </Button>
-            <Button
-              model="info"
-              cb={() => toast.info('info', 'You have received a new message')}
-            >
-              Toast info
-            </Button>
-            <Button
-              cb={() =>
-                toast('default', "Don't forget to complete your registration")
-              }
-            >
-              Toast info
+              Send Toast
             </Button>
           </div>
           <div style={{ ...theme.boxes.right }}>

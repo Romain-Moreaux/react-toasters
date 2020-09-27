@@ -149,4 +149,4 @@ Toast.propTypes = {
   }),
 }
 
-export default Toast
+export default React.memo(Toast)

@@ -141,7 +141,20 @@ export default function Exemples() {
               cb={() =>
                 toast(appearance, 'Your informations has been saved', {
                   type: appearance,
+                  position: 'topLeft',
+                  autoClose: 0,
+                })
+              }
+            >
+              Send Toast
+            </Button>
+            <Button
+              model={appearance}
+              cb={() =>
+                toast(appearance, 'Your informations has been saved', {
+                  type: appearance,
                   position: 'bottomRight',
+                  autoClose: 0,
                 })
               }
             >

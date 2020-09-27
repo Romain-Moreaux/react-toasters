@@ -9,41 +9,36 @@ import PropTypes from 'prop-types'
 
 const useStyles = createUseStyles((theme) => ({
   toaster: {
-    position: 'relative',
+    position: 'fixed',
     display: 'flex',
     flexDirection: 'column',
     height: 'auto',
+    padding: theme.spaces?.md,
+    zIndex: 30,
+    transition: 'height 3s ease-in-out',
     width: '100%',
     maxWidth: 328,
-    padding: theme.spaces?.md,
-    zIndex: -1,
-    transition: 'max-height 3s ease-in-out',
-    // top: 0,
-    // left: 0,
-    // bottom: 0,
-    // right: 0,
-    // width: '100%',
   },
 
-  // topRight: {
-  //   top: 0,
-  //   right: 0,
-  // },
+  topRight: {
+    top: 0,
+    right: 0,
+  },
 
-  // bottomRight: {
-  //   bottom: 0,
-  //   right: 0,
-  // },
+  bottomRight: {
+    bottom: 0,
+    right: 0,
+  },
 
-  // topLeft: {
-  //   top: 0,
-  //   left: 0,
-  // },
+  topLeft: {
+    top: 0,
+    left: 0,
+  },
 
-  // bottomLeft: {
-  //   bottom: 0,
-  //   left: 0,
-  // },
+  bottomLeft: {
+    bottom: 0,
+    left: 0,
+  },
 
   slideInRight: {
     transform: `translate3d(calc(100% + ${theme.spaces?.md}), 0, 0)`,
@@ -79,15 +74,17 @@ const useStyles = createUseStyles((theme) => ({
 }))
 
 const ToasterProvider = (props) => {
-  const [toasts, setToasts] = useState([])
-  let transitionsCls = useRef()
-  let toasterRoot = useRef()
-  const classes = useStyles()
   const { position, autoClose, closeButton } = props
+  const [toasts, setToasts] = useState([])
+  const [transitions, setTransitions] = useState(null)
+  let positionRef = useRef(position)
+  let toasterRoot = useRef()
+  // let transitionsCls = useRef()
+  const classes = useStyles()
   console.log('<ToastProvider />', toasts)
 
   const toastProps = {
-    position,
+    position: positionRef.current,
     autoClose,
     closeButton,
   }
@@ -119,10 +116,13 @@ const ToasterProvider = (props) => {
       typeof options === 'object' &&
       !Array.isArray(options)
     ) {
+      // transitionsCls.current = getTransitionsCls(options.position)
+      positionRef.current = options.position
+      setTransitions(getTransitionsCls(options.position))
       return {
         title,
         message,
-        options,
+        options: Object.assign({}, toastProps, options),
         id: newId(),
       }
     }
@@ -130,23 +130,19 @@ const ToasterProvider = (props) => {
 
   const toast = (title, message, options) => {
     console.log(options)
-    transitionsCls.current = getTransitionsCls(options.position)
-    setToasts([
-      ...toasts,
-      initToast(title, message, Object.assign({}, toastProps, options)),
-    ])
+    setToasts([...toasts, initToast(title, message, options)])
   }
 
-  // const info = (title, message) =>
+  // const info = (title, message, options) =>
   //   setToasts([...toasts, initToast(title, message, 'info')])
 
-  // const success = (title, message) =>
+  // const success = (title, message, options) =>
   //   setToasts([...toasts, initToast(title, message, 'success')])
 
-  // const error = (title, message) =>
+  // const error = (title, message, options) =>
   //   setToasts([...toasts, initToast(title, message, 'error')])
 
-  // const warning = (title, message) =>
+  // const warning = (title, message, options) =>
   //   setToasts([...toasts, initToast(title, message, 'warning')])
 
   const remove = (id) => setToasts(toasts.filter((t) => t.id !== id))
@@ -186,14 +182,17 @@ const ToasterProvider = (props) => {
       {toasterRoot.current &&
         createPortal(
           <TransitionGroup
-            className={concatClasses([classes.toaster, classes[position]])}
+            className={concatClasses([
+              classes.toaster,
+              classes[positionRef.current],
+            ])}
           >
-            {toasts?.map((t) => {
+            {toasts.map((t) => {
               return (
                 <CSSTransition
                   key={t.id}
                   timeout={300}
-                  classNames={transitionsCls.current}
+                  classNames={transitions}
                 >
                   <Toast {...t} remove={() => remove(t.id)} />
                 </CSSTransition>

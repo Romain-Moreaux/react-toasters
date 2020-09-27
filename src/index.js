@@ -5,10 +5,8 @@ import Toaster from './toaster'
 import './index.css'
 
 ReactDOM.render(
-  // <React.StrictMode>
-  <Toaster position={'topRight'} autoClose={null} closeButton={true}>
+  <React.StrictMode>
     <App />
-  </Toaster>,
-  // </React.StrictMode>
+  </React.StrictMode>,
   document.getElementById('root')
 )

@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useCallback } from 'react'
 import { createPortal } from 'react-dom'
 import ToastContext from './context'
 import Toast from './Toast'
 import { concatClasses, newId } from './helpers'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import { createUseStyles } from 'react-jss'
+import PropTypes from 'prop-types'
 
 const useStyles = createUseStyles((theme) => ({
   toaster: {
@@ -12,11 +13,11 @@ const useStyles = createUseStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     height: 'auto',
+    padding: theme.spaces?.md,
+    zIndex: 30,
+    transition: 'height 3s ease-in-out',
     width: '100%',
     maxWidth: 328,
-    padding: theme.spaces?.md,
-    zIndex: 3,
-    transition: 'max-height 3s ease-in-out',
   },
 
   topRight: {
@@ -73,50 +74,76 @@ const useStyles = createUseStyles((theme) => ({
 }))
 
 const ToasterProvider = (props) => {
-  const [toasts, setToasts] = useState([])
-  let transitionsCls = useRef()
-  const classes = useStyles()
-  const toastsRoot = document.getElementById('toasts')
-
   const { position, autoClose, closeButton } = props
+  const [toasts, setToasts] = useState([])
+  const [transitions, setTransitions] = useState(null)
+  let positionRef = useRef(position)
+  let toasterRoot = useRef()
+  // let transitionsCls = useRef()
+  const classes = useStyles()
+  console.log('<ToastProvider />', toasts)
+
+  const toastProps = {
+    position: positionRef.current,
+    autoClose,
+    closeButton,
+  }
+
+  const containerBuild = useCallback(() => {
+    console.log('useCallback')
+    const container = document.createElement('div')
+    container.id = 'toaster'
+    document.body.appendChild(container)
+    toasterRoot.current = document.getElementById('toaster')
+  }, [])
 
   useEffect(() => {
-    if (!transitionsCls.current) {
-      transitionsCls.current = getTransitionsCls(position)
-    }
-  })
+    containerBuild()
+  }, [containerBuild])
 
-  const initToast = (title, message, type) => {
-    console.log('initToast called')
+  // useEffect(() => {
+  //   console.log('useEffect', toasts)
+  //   if (!transitionsCls.current) {
+  //     transitionsCls.current = getTransitionsCls(position)
+  //   }
+  // }, [toasts, getTransitionsCls, position])
 
+  const initToast = (title, message, options) => {
+    console.log('initToast()')
     if (
       typeof title === 'string' &&
       typeof message === 'string' &&
-      typeof type === 'string'
+      typeof options === 'object' &&
+      !Array.isArray(options)
     ) {
+      // transitionsCls.current = getTransitionsCls(options.position)
+      positionRef.current = options.position
+      setTransitions(getTransitionsCls(options.position))
       return {
         title,
         message,
-        type,
+        options: Object.assign({}, toastProps, options),
         id: newId(),
       }
     }
   }
 
-  const toast = (title, message) =>
-    setToasts([...toasts, initToast(title, message, 'default')])
+  const toast = (title, message, options) => {
+    console.log(options)
+    setToasts([...toasts, initToast(title, message, options)])
+  }
 
-  const info = (title, message) =>
-    setToasts([...toasts, initToast(title, message, 'info')])
+  // const info = (title, message, options) =>
+  //   setToasts([...toasts, initToast(title, message, 'info')])
 
-  const success = (title, message) =>
-    setToasts([...toasts, initToast(title, message, 'success')])
+  // const success = (title, message, options) =>
+  //   setToasts([...toasts, initToast(title, message, 'success')])
 
-  const error = (title, message) =>
-    setToasts([...toasts, initToast(title, message, 'error')])
+  // const error = (title, message, options) =>
+  //   setToasts([...toasts, initToast(title, message, 'error')])
 
-  const warning = (title, message) =>
-    setToasts([...toasts, initToast(title, message, 'warning')])
+  // const warning = (title, message, options) =>
+  //   setToasts([...toasts, initToast(title, message, 'warning')])
 
   const remove = (id) => setToasts(toasts.filter((t) => t.id !== id))
 
@@ -140,44 +167,48 @@ const ToasterProvider = (props) => {
     return transitions
   }
 
-  const toastProps = {
-    position,
-    autoClose,
-    closeButton,
-  }
-
   const providerValue = {
     toast,
-    info,
-    success,
-    error,
-    warning,
+    // info,
+    // success,
+    // error,
+    // warning,
     remove,
   }
 
   return (
     <ToastContext.Provider value={providerValue}>
       {props.children}
-      {createPortal(
-        <TransitionGroup
-          className={concatClasses([classes.toaster, classes[position]])}
-        >
-          {toasts.map((t) => {
-            return (
-              <CSSTransition
-                key={t.id}
-                timeout={300}
-                classNames={transitionsCls.current}
-              >
-                <Toast {...t} remove={() => remove(t.id)} {...toastProps} />
-              </CSSTransition>
-            )
-          })}
-        </TransitionGroup>,
-        toastsRoot
-      )}
+      {toasterRoot.current &&
+        createPortal(
+          <TransitionGroup
+            className={concatClasses([
+              classes.toaster,
+              classes[positionRef.current],
+            ])}
+          >
+            {toasts.map((t) => {
+              return (
+                <CSSTransition
+                  key={t.id}
+                  timeout={300}
+                  classNames={transitions}
+                >
+                  <Toast {...t} remove={() => remove(t.id)} />
+                </CSSTransition>
+              )
+            })}
+          </TransitionGroup>,
+          toasterRoot.current
+        )}
     </ToastContext.Provider>
   )
+}
+
+ToasterProvider.protoTypes = {
+  autoClose: PropTypes.number,
+  closeButton: PropTypes.bool,
+  position: PropTypes.string,
 }
 
 export default ToasterProvider

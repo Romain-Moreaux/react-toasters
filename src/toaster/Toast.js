@@ -103,7 +103,9 @@ const icons = {
 }
 
 function Toast(props) {
-  const { remove, title, message, type, autoClose, closeButton } = props
+  console.log('<Toast />', props)
+  const { remove, title, message, options } = props
+  const { autoClose, closeButton, type } = options
   const classes = useStyles()
   const removeRef = useRef()
   removeRef.current = remove
@@ -137,12 +139,14 @@ Toast.defaultProps = {
 }
 
 Toast.propTypes = {
-  type: PropTypes.oneOf(['info', 'success', 'error', 'warning', 'default']),
   title: PropTypes.string,
   message: PropTypes.string,
   remove: PropTypes.func,
-  autoClose: PropTypes.number,
-  closeButton: PropTypes.bool,
+  options: PropTypes.shape({
+    type: PropTypes.oneOf(['info', 'success', 'error', 'warning', 'default']),
+    autoClose: PropTypes.number,
+    closeButton: PropTypes.bool,
+  }),
 }
 
-export default Toast
+export default React.memo(Toast)

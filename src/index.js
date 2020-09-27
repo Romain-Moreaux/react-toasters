@@ -6,9 +6,7 @@ import './index.css'
 
 ReactDOM.render(
   <React.StrictMode>
-    <Toaster position={'topRight'} autoClose={null} closeButton={true}>
-      <App />
-    </Toaster>
+    <App />
   </React.StrictMode>,
   document.getElementById('root')
 )

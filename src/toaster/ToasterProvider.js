@@ -133,17 +133,17 @@ const ToasterProvider = (props) => {
     setToasts([...toasts, initToast(title, message, options)])
   }
 
-  // const info = (title, message, options) =>
-  //   setToasts([...toasts, initToast(title, message, 'info')])
+  const info = (title, message, options) =>
+    setToasts([...toasts, initToast(title, message, 'info')])
 
-  // const success = (title, message, options) =>
-  //   setToasts([...toasts, initToast(title, message, 'success')])
+  const success = (title, message, options) =>
+    setToasts([...toasts, initToast(title, message, 'success')])
 
-  // const error = (title, message, options) =>
-  //   setToasts([...toasts, initToast(title, message, 'error')])
+  const error = (title, message, options) =>
+    setToasts([...toasts, initToast(title, message, 'error')])
 
-  // const warning = (title, message, options) =>
-  //   setToasts([...toasts, initToast(title, message, 'warning')])
+  const warning = (title, message, options) =>
+    setToasts([...toasts, initToast(title, message, 'warning')])
 
   const remove = (id) => setToasts(toasts.filter((t) => t.id !== id))
 
